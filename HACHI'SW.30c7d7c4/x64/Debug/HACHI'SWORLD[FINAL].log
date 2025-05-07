@@ -1,0 +1,51 @@
+﻿  Level.c
+C:\Users\user1\source\vsstudio\HACHI'SWORLD\HACHI'SWORLD[FINAL]\Level.c(226,30): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\user1\source\vsstudio\HACHI'SWORLD\HACHI'SWORLD[FINAL]\Level.c(227,30): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\user1\source\vsstudio\HACHI'SWORLD\HACHI'SWORLD[FINAL]\Level.c(228,32): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\user1\source\vsstudio\HACHI'SWORLD\HACHI'SWORLD[FINAL]\Level.c(257,78): warning C4244: 'function': conversion from 'float' to 'int', possible loss of data
+C:\Users\user1\source\vsstudio\HACHI'SWORLD\HACHI'SWORLD[FINAL]\Level.c(257,102): warning C4244: 'function': conversion from 'float' to 'int', possible loss of data
+C:\Users\user1\source\vsstudio\HACHI'SWORLD\HACHI'SWORLD[FINAL]\Level.c(544,36): warning C4305: '+=': truncation from 'double' to 'float'
+C:\Users\user1\source\vsstudio\HACHI'SWORLD\HACHI'SWORLD[FINAL]\Level.c(546,36): warning C4305: '+=': truncation from 'double' to 'float'
+C:\Users\user1\source\vsstudio\HACHI'SWORLD\HACHI'SWORLD[FINAL]\Level.c(625,50): warning C4244: 'function': conversion from 'float' to 'int', possible loss of data
+C:\Users\user1\source\vsstudio\HACHI'SWORLD\HACHI'SWORLD[FINAL]\Level.c(625,73): warning C4244: 'function': conversion from 'float' to 'int', possible loss of data
+C:\Users\user1\source\vsstudio\HACHI'SWORLD\HACHI'SWORLD[FINAL]\Level.c(653,31): warning C4028: formal parameter 1 different from declaration
+C:\Users\user1\source\vsstudio\HACHI'SWORLD\HACHI'SWORLD[FINAL]\Level.c(653,46): warning C4028: formal parameter 2 different from declaration
+C:\Users\user1\source\vsstudio\HACHI'SWORLD\HACHI'SWORLD[FINAL]\Level.c(653,6): warning C4029: declared formal parameter list different from definition
+  Player.c
+C:\Users\user1\source\vsstudio\HACHI'SWORLD\HACHI'SWORLD[FINAL]\Player.c(17,57): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\user1\source\vsstudio\HACHI'SWORLD\HACHI'SWORLD[FINAL]\Player.c(17,78): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\user1\source\vsstudio\HACHI'SWORLD\HACHI'SWORLD[FINAL]\Player.c(66,27): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\user1\source\vsstudio\HACHI'SWORLD\HACHI'SWORLD[FINAL]\Player.c(67,28): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\user1\source\vsstudio\HACHI'SWORLD\HACHI'SWORLD[FINAL]\Player.c(68,26): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\user1\source\vsstudio\HACHI'SWORLD\HACHI'SWORLD[FINAL]\Player.c(106,30): warning C4047: 'function': 'const char *' differs in levels of indirection from 'int'
+C:\Users\user1\source\vsstudio\HACHI'SWORLD\HACHI'SWORLD[FINAL]\Player.c(106,30): warning C4024: 'DrawText': different types for formal and actual parameter 1
+C:\Users\user1\source\vsstudio\HACHI'SWORLD\HACHI'SWORLD[FINAL]\Player.c(106,65): warning C4244: 'function': conversion from 'float' to 'int', possible loss of data
+  Generating Code...
+  HACHI'SWORLD[FINAL].vcxproj -> C:\Users\user1\source\vsstudio\HACHI'SWORLD\HACHI'SWORLD[FINAL]\x64\Debug\HACHI'SWORLD[FINAL].exe
+  'pwsh.exe' is not recognized as an internal or external command,
+  operable program or batch file.
+  Set-Content : Could not find a part of the path 
+  'C:\WINDOWS\System32\WindowsPowerShell\v1.0\HACHI'SW.30c7d7c4\x64\Debug\vcpkg.applocal.log'.
+  At C:\vcpkg\scripts\buildsystems\msbuild\applocal.ps1:12 char:5
+  +     Set-Content -Path $copiedFilesLog -Value "" -Encoding UTF8
+  +     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      + CategoryInfo          : ObjectNotFound: (C:\WINDOWS\Syst...kg.applocal.log:String) [Set-Content], DirectoryNotFo 
+     undException
+      + FullyQualifiedErrorId : GetContentWriterDirectoryNotFoundError,Microsoft.PowerShell.Commands.SetContentCommand
+   
+  Split-Path : Cannot bind argument to parameter 'Path' because it is null.
+  At C:\vcpkg\scripts\buildsystems\msbuild\applocal.ps1:76 char:39
+  +     $baseTargetBinaryDir = Split-Path $baseBinaryPath -parent
+  +                                       ~~~~~~~~~~~~~~~
+      + CategoryInfo          : InvalidData: (:) [Split-Path], ParameterBindingValidationException
+      + FullyQualifiedErrorId : ParameterArgumentValidationErrorNullNotAllowed,Microsoft.PowerShell.Commands.SplitPathCo 
+     mmand
+   
+  Split-Path : Cannot bind argument to parameter 'Path' because it is null.
+  At C:\vcpkg\scripts\buildsystems\msbuild\applocal.ps1:94 char:35
+  +     $targetBinaryDir = Split-Path $targetBinaryPath -parent
+  +                                   ~~~~~~~~~~~~~~~~~
+      + CategoryInfo          : InvalidData: (:) [Split-Path], ParameterBindingValidationException
+      + FullyQualifiedErrorId : ParameterArgumentValidationErrorNullNotAllowed,Microsoft.PowerShell.Commands.SplitPathCo 
+     mmand
+   
