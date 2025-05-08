@@ -5,6 +5,7 @@
 #include <stdio.h>
 
 #include "Player.h"
+#include "Enemies.h"
 #include "Animation.h"
 #include "Level.h"
 
@@ -191,6 +192,7 @@ int main(void)
             if (menu.currentLevel >= 0 && !menu.showLevelSelection) {
 
                 Player_Init(&player, PLAYER_HACHI);
+                Enemies_Init(&enemies);
                 currentLevel = Level_Create(menu.currentLevel + 1); // +1 because levels are 1-indexed in Level_Create
 
                 if (currentLevel == NULL) {
@@ -209,109 +211,126 @@ int main(void)
             break;
 
         case STATE_GAME:
-            // Update the level
             if (currentLevel != NULL) {
-                Player_CheckInput(&player);
-                Player_ManageInput(&player);
-
-                // Start level music if not already playing
+                // Initialize level if not started
                 if (!currentLevel->startPlay) {
+                    Level_Init(currentLevel);
+                    Player_SetPos1(&player);
+                    Enemies_Reset(&enemies);
+                    currentLevel->levelCompleted = false;
+
                     switch (menu.currentLevel) {
-                    case 0: // Level 1
-                        
+                    case 0:
                         SetMusicVolume(currentLevel->levelOne_music, currentLevel->levelOne_volume);
                         PlayMusicStream(currentLevel->levelOne_music);
                         break;
-                    case 1: // Level 2
+                    case 1:
                         SetMusicVolume(currentLevel->levelTwo_music, currentLevel->levelTwo_volume);
                         PlayMusicStream(currentLevel->levelTwo_music);
                         break;
-                    case 2: // Level 3
+                    case 2:
                         SetMusicVolume(currentLevel->levelThree_music, currentLevel->levelThree_volume);
                         PlayMusicStream(currentLevel->levelThree_music);
                         break;
                     }
+
                     currentLevel->startPlay = true;
                 }
 
-                Player_SetPos1(&player);
-
-                // Update music stream
+                // Update audio stream
                 switch (menu.currentLevel) {
                 case 0: UpdateMusicStream(currentLevel->levelOne_music); break;
                 case 1: UpdateMusicStream(currentLevel->levelTwo_music); break;
                 case 2: UpdateMusicStream(currentLevel->levelThree_music); break;
                 }
 
-                BeginMode2D(player.camera);
-                
-                // Render level
-                Level_Init(currentLevel);
-                Level_DrawTiles(currentLevel);
-                Level_Draw(currentLevel, &player);
+                player.camera.target = (Vector2){ player.animation.player_disp.x, player.animation.player_disp.y };
 
-                DrawTexturePro(
-                    player.hasTurned_right ?
-                    player.animation->player_texture_idle :
-                    player.animation->player_texture_idle,
-                    player.hasTurned_right ?
-                    player.animation->player_src_right :
-                    player.animation->player_src_left,
-                    player.animation->player_disp,
-                    player.origin,
-                    0.0f,
-                    WHITE
-                );
+                // Begin game rendering
+                BeginMode2D(player.camera);
+                ClearBackground(SKYBLUE);
+
+                Level_Draw(currentLevel, &player);
+                Player_DrawUI(&player);
+
+                if (!menu.pause_Game) {
+                    Player_CheckInput(&player);
+                    Player_ManageInput(&player);
+                    Player_SetAudioVolume(&player);
+
+                    // Manage enemies and level-specific mechanics
+                    if (menu.currentLevel == 0) {
+                        Enemies_ManageRadish(&enemies);
+                        Enemies_ManageCassava(&enemies);
+                        Level_CheckCollisions(currentLevel, &player, &enemies);
+
+                        if (player.death) {
+                            Level_ManageDeath(currentLevel, &player, &enemies);
+                            if (player.hp <= 0) {
+                                Player_SetPos1(&player);
+                                Enemies_Reset(&enemies);
+                                currentLevel->startPlay = false;
+                                // Optionally return to level select or restart
+                                currentState = STATE_LEVEL_SELECT;
+                            }
+                        }
+                    }
+                    else if (menu.currentLevel == 1) {
+                        Enemies_ManageRadish(&enemies);
+                        Enemies_ManageCassava(&enemies);
+                        Level_CheckCollisions(currentLevel, &player, &enemies);
+
+                        if (player.death) {
+                            Level_ManageDeath(currentLevel, &player, &enemies);
+                            if (player.hp <= 0) {
+                                Player_SetPos1(&player);
+                                Enemies_Reset(&enemies);
+                                currentLevel->startPlay = false;
+                                currentState = STATE_LEVEL_SELECT;
+                            }
+                        }
+                    }
+                    // Add Level 3 behavior similarly
+                }
+
 
                 EndMode2D();
 
-                Player_SetAudioVolume(&player);
-                Player_DrawUI(&player);
-
-                // Debug info - helps track what's happening
+                // Debug info
                 DrawText(TextFormat("Level: %d", menu.currentLevel + 1), 10, 10, 20, WHITE);
                 DrawText(TextFormat("Level Status: %s", currentLevel->startPlay ? "Playing" : "Starting"), 10, 30, 20, WHITE);
 
-
-                // Check if level is completed
                 if (currentLevel->levelCompleted) {
-                    // Handle level completion
                     PlaySound(currentLevel->levelcompleted_sound);
-                    // Save progress if needed
-                    currentState = STATE_LEVEL_SELECT;
                     currentLevel->levelCompleted = false;
+                    currentState = STATE_LEVEL_SELECT;
                 }
 
-                // Check if game over
                 if (currentLevel->game_over) {
                     PlaySound(currentLevel->gameover_sound);
-                    currentState = STATE_LEVEL_SELECT;
                     currentLevel->game_over = false;
+                    currentState = STATE_LEVEL_SELECT;
                 }
             }
             else {
-                // Debug message if level is NULL
                 DrawText("ERROR: Level is NULL", screenWidth / 2 - 100, screenHeight / 2, 20, RED);
             }
 
-            // Check for return to menu
+            // Exit to main menu
             if (IsKeyPressed(KEY_ESCAPE)) {
                 if (currentLevel != NULL) {
-                    // Stop music based on level
                     switch (menu.currentLevel) {
                     case 0: StopMusicStream(currentLevel->levelOne_music); break;
                     case 1: StopMusicStream(currentLevel->levelTwo_music); break;
                     case 2: StopMusicStream(currentLevel->levelThree_music); break;
                     }
-
-                    // Free the level resources
-                    //Level_Unload(currentLevel);
                     free(currentLevel);
                     currentLevel = NULL;
                 }
                 currentState = STATE_MAIN_MENU;
             }
             break;
+
 
         default:
 

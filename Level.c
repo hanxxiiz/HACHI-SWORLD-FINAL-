@@ -135,6 +135,8 @@ Level* Level_Create(int id) {
         return NULL;
     }
 
+    memset(level, 0, sizeof(Level));
+
     level->dead_sound = LoadSound("Resources/SoundEffects/dead.wav");
     level->explosion_sound = LoadSound("Resources/SoundEffects/explosion.wav");
     level->gameover_sound = LoadSound("Resources/SoundEffects/gameover.wav");
@@ -163,36 +165,36 @@ Level* Level_Create(int id) {
     }
 
     //Level Two
-    else if (id == 2) {
-        level->levelTwo_music = LoadMusicStream("Resources/Music/LevelTwo.mp3");
-        level->levelTwoBackground = LoadTexture("Resources/LevelTwo/");
-        level->levelTwoBridge = LoadTexture("Resources/LevelTwo/");
-        level->levelTwoPlatform_right = LoadTexture("Resources/LevelTwo/");
-        level->levelTwoPlatform_left = LoadTexture("Resources/LevelTwo/");
-        level->levelTwoPlatform_mid = LoadTexture("Resources/LevelTwo/");
-        level->levelTwoGround_topright = LoadTexture("Resources/LevelTwo/");
-        level->levelTwoGround_topleft = LoadTexture("Resources/LevelTwo/");
-        level->levelTwoGround_topmid = LoadTexture("Resources/LevelTwo/");
-        level->levelTwoGround_midright = LoadTexture("Resources/LevelTwo/");
-        level->levelTwoGround_midleft = LoadTexture("Resources/LevelTwo/");
-        level->levelTwoGround_center = LoadTexture("Resources/LevelTwo/");
-    }
+    //else if (id == 2) {
+    //    level->levelTwo_music = LoadMusicStream("Resources/Music/LevelTwo.mp3");
+    //    level->levelTwoBackground = LoadTexture("Resources/LevelTwo/");
+    //    level->levelTwoBridge = LoadTexture("Resources/LevelTwo/");
+    //    level->levelTwoPlatform_right = LoadTexture("Resources/LevelTwo/");
+    //    level->levelTwoPlatform_left = LoadTexture("Resources/LevelTwo/");
+    //    level->levelTwoPlatform_mid = LoadTexture("Resources/LevelTwo/");
+    //    level->levelTwoGround_topright = LoadTexture("Resources/LevelTwo/");
+    //    level->levelTwoGround_topleft = LoadTexture("Resources/LevelTwo/");
+    //    level->levelTwoGround_topmid = LoadTexture("Resources/LevelTwo/");
+    //    level->levelTwoGround_midright = LoadTexture("Resources/LevelTwo/");
+    //    level->levelTwoGround_midleft = LoadTexture("Resources/LevelTwo/");
+    //    level->levelTwoGround_center = LoadTexture("Resources/LevelTwo/");
+    //}
 
-    //Level Three
-    else if (id == 3) {
-        level->levelThree_music = LoadMusicStream("Resources/Music/LevelThree.mp3");
-        level->levelThreeBackground = LoadTexture("Resources/LevelThree/");
-        level->levelThreeBridge = LoadTexture("Resources/LevelThree/");
-        level->levelThreePlatform_right = LoadTexture("Resources/LevelThree/");
-        level->levelThreePlatform_left = LoadTexture("Resources/LevelThree/");
-        level->levelThreePlatform_mid = LoadTexture("Resources/LevelThree/");
-        level->levelThreeGround_topright = LoadTexture("Resources/LevelThree/");
-        level->levelThreeGround_topleft = LoadTexture("Resources/LevelThree/");
-        level->levelThreeGround_topmid = LoadTexture("Resources/LevelThree/");
-        level->levelThreeGround_midright = LoadTexture("Resources/LevelThree/");
-        level->levelThreeGround_midleft = LoadTexture("Resources/LevelThree/");
-        level->levelThreeGround_center = LoadTexture("Resources/LevelThree/");
-    }
+    ////Level Three
+    //else if (id == 3) {
+    //    level->levelThree_music = LoadMusicStream("Resources/Music/LevelThree.mp3");
+    //    level->levelThreeBackground = LoadTexture("Resources/LevelThree/");
+    //    level->levelThreeBridge = LoadTexture("Resources/LevelThree/");
+    //    level->levelThreePlatform_right = LoadTexture("Resources/LevelThree/");
+    //    level->levelThreePlatform_left = LoadTexture("Resources/LevelThree/");
+    //    level->levelThreePlatform_mid = LoadTexture("Resources/LevelThree/");
+    //    level->levelThreeGround_topright = LoadTexture("Resources/LevelThree/");
+    //    level->levelThreeGround_topleft = LoadTexture("Resources/LevelThree/");
+    //    level->levelThreeGround_topmid = LoadTexture("Resources/LevelThree/");
+    //    level->levelThreeGround_midright = LoadTexture("Resources/LevelThree/");
+    //    level->levelThreeGround_midleft = LoadTexture("Resources/LevelThree/");
+    //    level->levelThreeGround_center = LoadTexture("Resources/LevelThree/");
+    //}
 
     level->background_src = (Rectangle){ 0, 0, 320, 180 };
     level->background_disp_1 = (Rectangle){ 0, 0, 1920, 1080 };
@@ -285,34 +287,53 @@ void Level_Init(Level* level)
 
 void Level_Draw(Level* level, Player* player)
 {
-    Level_Init(level);
 
     if (level->levelID == 1)
     {
-        UpdateMusicStream(level->levelOne_music);
-        DrawTexturePro(level->levelOneBackground, level->background_src, level->background_disp_1, level->origin, 0, RAYWHITE);
-        DrawTexturePro(level->levelOneBackground, level->background_src, level->background_disp_2, level->origin, 0, RAYWHITE);
-        DrawTexturePro(level->levelOneBackground, level->background_src, level->background_disp_3, level->origin, 0, RAYWHITE);
-        DrawTexturePro(level->levelOneBackground, level->background_src, level->background_disp_4, level->origin, 0, RAYWHITE);
-        DrawTexturePro(level->levelOneBackground, level->background_src, level->background_disp_5, level->origin, 0, RAYWHITE);
+        if (level->levelOneBackground.id != 0) {
+            DrawTexturePro(level->levelOneBackground, level->background_src, level->background_disp_1, level->origin, 0, RAYWHITE);
+            DrawTexturePro(level->levelOneBackground, level->background_src, level->background_disp_2, level->origin, 0, RAYWHITE);
+            DrawTexturePro(level->levelOneBackground, level->background_src, level->background_disp_3, level->origin, 0, RAYWHITE);
+            DrawTexturePro(level->levelOneBackground, level->background_src, level->background_disp_4, level->origin, 0, RAYWHITE);
+            DrawTexturePro(level->levelOneBackground, level->background_src, level->background_disp_5, level->origin, 0, RAYWHITE);
+        }
+        else {
+            // Fallback - draw a simple colored background
+            DrawRectangle(0, 0, 1920 * 5, 1080, SKYBLUE);
+            DrawText("Level 1", 100, 100, 30, WHITE);
+        }
     }
     else if (level->levelID == 2)
     {
-        UpdateMusicStream(level->levelTwo_music);
-        DrawTexturePro(level->levelTwoBackground, level->background_src, level->background_disp_1, level->origin, 0, RAYWHITE);
-        DrawTexturePro(level->levelTwoBackground, level->background_src, level->background_disp_2, level->origin, 0, RAYWHITE);
-        DrawTexturePro(level->levelTwoBackground, level->background_src, level->background_disp_3, level->origin, 0, RAYWHITE);
-        DrawTexturePro(level->levelTwoBackground, level->background_src, level->background_disp_4, level->origin, 0, RAYWHITE);
-        DrawTexturePro(level->levelTwoBackground, level->background_src, level->background_disp_5, level->origin, 0, RAYWHITE);
+        //TO BE MODIFIED ONCE THE BACKGROUND TEXTURES ARE AVAILABLE
+        if (level->levelTwoBackground.id != 0) {
+            DrawTexturePro(level->levelOneBackground, level->background_src, level->background_disp_1, level->origin, 0, RAYWHITE);
+            DrawTexturePro(level->levelOneBackground, level->background_src, level->background_disp_2, level->origin, 0, RAYWHITE);
+            DrawTexturePro(level->levelOneBackground, level->background_src, level->background_disp_3, level->origin, 0, RAYWHITE);
+            DrawTexturePro(level->levelOneBackground, level->background_src, level->background_disp_4, level->origin, 0, RAYWHITE);
+            DrawTexturePro(level->levelOneBackground, level->background_src, level->background_disp_5, level->origin, 0, RAYWHITE);
+        }
+        else {
+            // Fallback - draw a simple colored background
+            DrawRectangle(0, 0, 1920 * 5, 1080, SKYBLUE);
+            DrawText("Level 2", 100, 100, 30, WHITE);
+        }
     }
     else if (level->levelID == 3)
     {
-        UpdateMusicStream(level->levelThree_music);
-        DrawTexturePro(level->levelThreeBackground, level->background_src, level->background_disp_1, level->origin, 0, RAYWHITE);
-        DrawTexturePro(level->levelThreeBackground, level->background_src, level->background_disp_2, level->origin, 0, RAYWHITE);
-        DrawTexturePro(level->levelThreeBackground, level->background_src, level->background_disp_3, level->origin, 0, RAYWHITE);
-        DrawTexturePro(level->levelThreeBackground, level->background_src, level->background_disp_4, level->origin, 0, RAYWHITE);
-        DrawTexturePro(level->levelThreeBackground, level->background_src, level->background_disp_5, level->origin, 0, RAYWHITE);
+        // TO BE MODIFIED ONCE THE BACKGROUND TEXTURES ARE AVAILABLE
+        if (level->levelThreeBackground.id != 0) {
+            DrawTexturePro(level->levelOneBackground, level->background_src, level->background_disp_1, level->origin, 0, RAYWHITE);
+            DrawTexturePro(level->levelOneBackground, level->background_src, level->background_disp_2, level->origin, 0, RAYWHITE);
+            DrawTexturePro(level->levelOneBackground, level->background_src, level->background_disp_3, level->origin, 0, RAYWHITE);
+            DrawTexturePro(level->levelOneBackground, level->background_src, level->background_disp_4, level->origin, 0, RAYWHITE);
+            DrawTexturePro(level->levelOneBackground, level->background_src, level->background_disp_5, level->origin, 0, RAYWHITE);
+        }
+        else {
+            // Fallback - draw a simple colored background
+            DrawRectangle(0, 0, 1920 * 5, 1080, SKYBLUE);
+            DrawText("Level 3", 100, 100, 30, WHITE);
+        }
     }
 
     Level_DrawTiles(level);
@@ -382,6 +403,9 @@ void Level_ManageTiles(Level* level, int i, int j)
     default:
         map = levelOne_map;
     }
+
+    level->tile_disp.x = j * level->tile_disp.width;
+    level->tile_disp.y = i * level->tile_disp.height;
 
     switch (map[i][j])
     {
@@ -481,17 +505,29 @@ void Level_ManageTiles(Level* level, int i, int j)
     }
 }
 
-void Level_CheckCollisions(Level* level, Player* player, Animation* animation, Enemies* enemy)
+void Level_CheckCollisions(Level* level, Player* player, Enemies* enemy)
 {
-    player->coll.x = animation->player_disp.x + 100;
-    player->coll.y = animation->player_disp.y + 130;
+    player->coll.x = player->animation.player_disp.x;
+    player->coll.y = player->animation.player_disp.y;
+    player->coll.width = 100;
+    player->coll.height = 130;
+
+    // Set the size and position of the player's foot collision box
     player->foot_coll.x = player->coll.x + 15;
     player->foot_coll.y = player->coll.y + 52;
+    player->foot_coll.width = 70;   // Example value: adjust as needed
+    player->foot_coll.height = 10;  // Example value: adjust as needed
 
-    enemy->cassava_enemy_collision.x = enemy->animation->cassava_disp.x + 100;
-    enemy->cassava_enemy_collision.y = enemy->animation->cassava_disp.y + 100;
-    enemy->radish_enemy_collision.x = enemy->animation->radish_disp.x + 100;
-    enemy->radish_enemy_collision.y = enemy->animation->radish_disp.y + 100;
+    // Enemy collision boxes based on enemy animation rectangles
+    enemy->cassava_enemy_collision.x = enemy->animation.cassava_disp.x;
+    enemy->cassava_enemy_collision.y = enemy->animation.cassava_disp.y;
+    enemy->cassava_enemy_collision.width = enemy->animation.cassava_disp.width;
+    enemy->cassava_enemy_collision.height = enemy->animation.cassava_disp.height;
+
+    enemy->radish_enemy_collision.x = enemy->animation.radish_disp.x;
+    enemy->radish_enemy_collision.y = enemy->animation.radish_disp.y;
+    enemy->radish_enemy_collision.width = enemy->animation.radish_disp.width;
+    enemy->radish_enemy_collision.height = enemy->animation.radish_disp.height;
 
 
     for (int i = 0; i < MAP_ROWS; i++)
@@ -501,12 +537,12 @@ void Level_CheckCollisions(Level* level, Player* player, Animation* animation, E
             level->tile_disp.x = j * level->tile_disp.width;
             level->tile_disp.y = i * level->tile_disp.height;
 
-            Level_ManageCollisions(level, player, animation, enemy, i, j);
+            Level_ManageCollisions(level, player, enemy, i, j);
         }
     }
 }
 
-void Level_ManageCollisions(Level* level, Player* player, Animation* animation, Enemies* enemy, int i, int j) {
+void Level_ManageCollisions(Level* level, Player* player, Enemies* enemy, int i, int j) {
     char (*map)[MAP_COLS + 1];
     switch (level->levelID) {
     case 1:
@@ -528,9 +564,9 @@ void Level_ManageCollisions(Level* level, Player* player, Animation* animation, 
         if ((map[i][j] == '1' || (map[i][j] == '2' || map[i][j] == '3' || map[i][j] == '8' || map[i][j] == '9' || map[i][j] == 'a') && player->foot_coll.y < level->tile_disp.y + 30
             || map[i][j] == '7') && !player->isGoing_up) {
             if (player->foot_coll.y > level->tile_disp.y && (player->foot_coll.x + player->foot_coll.width > level->tile_disp.x + level->tile_disp.width || player->foot_coll.x < level->tile_disp.x))
-                animation->player_disp.y -= (player->foot_coll.y - level->tile_disp.y) / 2;
+                player->animation.player_disp.y -= (player->foot_coll.y - level->tile_disp.y) / 2;
             else if (player->foot_coll.y > level->tile_disp.y)
-                animation->player_disp.y -= (player->foot_coll.y - level->tile_disp.y);
+                player->animation.player_disp.y -= (player->foot_coll.y - level->tile_disp.y);
             player->jumpBreak = false;
             player->hasJumped = false;
             player->gravity = 0;
@@ -544,7 +580,7 @@ void Level_ManageCollisions(Level* level, Player* player, Animation* animation, 
                 player->gravity += 0.2;
             else
                 player->gravity += 0.4;
-            animation->player_disp.y += player->gravity;
+            player->animation.player_disp.y += player->gravity;
         }
         if ((map[i][j] == '4' || map[i][j] == '5' || map[i][j] == '2' || map[i][j] == '3') && player->foot_coll.y > 870)
             player->speed.x = 0;

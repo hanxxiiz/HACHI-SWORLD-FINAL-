@@ -5,8 +5,7 @@
 #include <string.h>
 
 void Player_Init(Player* player, PlayerCharacter character) {
-    player->animation = malloc(sizeof(Animation));
-    Animation_Init(player->animation, character);
+    Animation_Init(&player->animation, character);
 
     player->death_sound = LoadSound("Resources/SoundEffects/dead.wav");
     player->hit_sound = LoadSound("Resources/SoundEffects/hit.wav");
@@ -114,7 +113,7 @@ void Player_CheckInput(Player* player) {
         player->isMoving_right = true;
     if (IsKeyDown(KEY_LEFT_SHIFT) || IsKeyDown(KEY_RIGHT_SHIFT))
         player->isRunning = true;
-    if (IsKeyPressed(KEY_SPACE) && !player->jumpBreak)
+    if (IsKeyPressed(KEY_SPACE) /*&& !player->jumpBreak*/)
     {
         player->hasJumped = true;
         player->playJump_sound = true;
@@ -128,9 +127,9 @@ void Player_CheckInput(Player* player) {
 }
 
 void Player_ManageInput(Player* player) {
-    if (player->animation->player_disp.x > 548 && player->animation->player_disp.x < 6952) {
+    if (player->animation.player_disp.x > 548 && player->animation.player_disp.x < 6952) {
         player->moveCamera = true;
-        player->camera.target = (Vector2){ player->animation->player_disp.x - 500, 580 };
+        player->camera.target = (Vector2){ player->animation.player_disp.x - 500, 580 };
     }
     else {
         player->moveCamera = false;
@@ -139,31 +138,31 @@ void Player_ManageInput(Player* player) {
     if (!player->isMoving_left && !player->isMoving_right && !player->hasJumped || player->isMoving_left && player->isMoving_right) {
         if (player->hasTurned_right) {
             if (player->hit_timer < 0) {
-                AnimationPlayer_idleRight(player->animation);
+                AnimationPlayer_idleRight(&player->animation);
             }
             else if (player->hit_timer > 0 && player->hit_timer % 3 == 0) {
-                AnimationPlayer_idleRight(player->animation);
+                AnimationPlayer_idleRight(&player->animation);
             }
         }
         else if (player->hasTurned_left) {
             if (player->hit_timer < 0) {
-                AnimationPlayer_idleLeft(player->animation);
+                AnimationPlayer_idleLeft(&player->animation);
             }
             else if (player->hit_timer > 0 && player->hit_timer % 3 == 0) {
-                AnimationPlayer_idleRight(player->animation);
+                AnimationPlayer_idleRight(&player->animation);
             }
         }
     }
     else if (player->isMoving_left) {
         if (!player->hasJumped) {
             if (player->hit_timer < 0) {
-                AnimationPlayer_runLeft(player->animation);
+                AnimationPlayer_runLeft(&player->animation);
             }
             else if (player->hit_timer > 0 && player->hit_timer % 3 == 0) {
-                AnimationPlayer_runLeft(player->animation);
+                AnimationPlayer_runLeft(&player->animation);
             }
             if (player->coll.x > 0) {
-                player->animation->player_disp.x -= player->speed.x;
+                player->animation.player_disp.x -= player->speed.x;
             }
 
             player->hasTurned_left = true;
@@ -173,13 +172,13 @@ void Player_ManageInput(Player* player) {
     else if (player->isMoving_right) {
         if (!player->hasJumped) {
             if (player->hit_timer < 0) {
-                AnimationPlayer_runRight(player->animation);
+                AnimationPlayer_runRight(&player->animation);
             }
             else if (player->hit_timer > 0 && player->hit_timer % 3 == 0) {
-                AnimationPlayer_runRight(player->animation);
+                AnimationPlayer_runRight(&player->animation);
             }
             if (player->coll.x < 8250) {
-                player->animation->player_disp.x += player->speed.x;
+                player->animation.player_disp.x += player->speed.x;
             }
 
             player->hasTurned_right = true;
@@ -199,14 +198,14 @@ void Player_ManageInput(Player* player) {
             PlaySound(player->jump_sound);
         }
         if (player->hit_timer < 0) {
-            AnimationPlayer_jumpLeft(player->animation);
+            AnimationPlayer_jumpLeft(&player->animation);
         }
         else if (player->hit_timer > 0 && player->hit_timer % 3 == 0)
         {
-            AnimationPlayer_jumpLeft(player->animation);
+            AnimationPlayer_jumpLeft(&player->animation);
         }
 
-        player->animation->player_disp.y -= (player->speed.y - player->gravity);
+        player->animation.player_disp.y -= (player->speed.y - player->gravity);
 
         if (player->gravity < 50) {
             player->gravity++;
@@ -226,14 +225,14 @@ void Player_ManageInput(Player* player) {
             PlaySound(player->jump_sound);
         }
         if (player->hit_timer < 0) {
-            AnimationPlayer_jumpRight(player->animation);
+            AnimationPlayer_jumpRight(&player->animation);
         }
         else if (player->hit_timer > 0 && player->hit_timer % 3 == 0)
         {
-            AnimationPlayer_jumpRight(player->animation);
+            AnimationPlayer_jumpRight(&player->animation);
         }
 
-        player->animation->player_disp.y -= (player->speed.y - player->gravity);
+        player->animation.player_disp.y -= (player->speed.y - player->gravity);
 
         if (player->gravity < 49) {
             player->gravity++;
@@ -259,21 +258,21 @@ void Player_SetPos1(Player* player) {
     player->score = 0;
     player->gravity = 0;
     player->hasJumped = false;
-    player->animation->player_disp = (Rectangle){ 50, 704, 48, 48 };
-    player->camera.target = (Vector2){ player->animation->player_disp.x, 580 };
+    player->animation.player_disp = (Rectangle){ 50, 704, 192, 192 };
+    player->camera.target = (Vector2){ player->animation.player_disp.x, 580 };
 }
 void Player_SetPos2(Player* player) {
     player->hit_timer = 0;
     player->gravity = 0;
     player->hasJumped = false;
-    player->animation->player_disp = (Rectangle){ 50, 704, 192, 192 };
-    player->camera.target = (Vector2){ player->animation->player_disp.x, 580 };
+    player->animation.player_disp = (Rectangle){ 50, 704, 192, 192 };
+    player->camera.target = (Vector2){ player->animation.player_disp.x, 580 };
 }
 void Player_SetPos3(Player* player) {
     player->hit_timer = 0;
     player->gravity = 0;
     player->hp = 3;
     player->hasJumped = false;
-    player->animation->player_disp = (Rectangle){ 50, 704, 192, 192 };
-    player->camera.target = (Vector2){ player->animation->player_disp.x, 580 };
+    player->animation.player_disp = (Rectangle){ 50, 704, 192, 192 };
+    player->camera.target = (Vector2){ player->animation.player_disp.x, 580 };
 }

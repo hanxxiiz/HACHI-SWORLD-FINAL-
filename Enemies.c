@@ -3,6 +3,11 @@
 
 void Enemies_Init(Enemies* enemies)
 {
+    if (enemies == NULL) {
+        printf("Error: Enemies pointer is NULL\n");
+        return;
+    }
+
     enemies->radish_enemy_collision = (Rectangle){ 0, 0, 100, 40 };
     enemies->cassava_enemy_collision = (Rectangle){ 0, 0, 100, 40 };
 

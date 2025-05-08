@@ -4,7 +4,7 @@
 
 typedef struct Enemies
 {
-	Animation* animation;
+	Animation animation;
 
 	Rectangle radish_enemy_collision;
 	Rectangle cassava_enemy_collision;
@@ -21,7 +21,7 @@ typedef struct Enemies
 	bool cassava_enemy_goUp;
 } Enemies;
 
-void Enemies_Init();
+void Enemies_Init(Enemies* enemies);
 void Enemies_ManageRadish(Enemies* enemies);
 void Enemies_ManageCassava(Enemies* enemies);
 void Enemies_Reset(Enemies* enemies);

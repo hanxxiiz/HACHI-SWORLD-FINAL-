@@ -44,7 +44,7 @@ void Animation_Init(Animation* anim, PlayerCharacter character)
     anim->cassava_disp = (Rectangle){ 2460, 450, 256, 192 };
     anim->radish_disp = (Rectangle){ 4800, 704, 256, 192 };
 
-    anim->player_disp = (Rectangle){ 50, 704, 192, 192 };;
+    anim->player_disp = (Rectangle){ 50, 704, 192, 192 };
 
     anim->origin = (Vector2){ 0, 0 };
 

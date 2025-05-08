@@ -6,7 +6,7 @@
 
 typedef struct Player
 {
-	struct Animation* animation;
+	Animation animation;
 
 	Sound death_sound;
 	Sound hit_sound;

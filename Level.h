@@ -123,10 +123,10 @@ void Level_Init(Level* level);
 void Level_DrawTiles(Level* level);
 void Level_Draw(Level* level, Player* player);
 void Level_ManageTiles(Level* level, int i, int j);
-void Level_CheckCollisions(Level* level, Player* player, Animation* animation, Enemies* enemy);
-void Level_ManageCollisions(Level* level, Player* player, Animation* animation, Enemies* enemy, int i, int j);
+void Level_CheckCollisions(Level* level, Player* player, Enemies* enemy);
+void Level_ManageCollisions(Level* level, Player* player, Enemies* enemy, int i, int j);
 void Level_GameOverScreen(Level* level, Player* player);
-void Level_ManageDeath(Player* player, Enemies* enemy);
+void Level_ManageDeath(Level* level, Player* player, Enemies* enemy);
 void Level_ResetMusic();
 
 bool CheckCollisionRecsOr(Rectangle rec1, Rectangle rec2, Vector2 origin);
